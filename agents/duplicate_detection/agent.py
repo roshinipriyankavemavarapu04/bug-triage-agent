@@ -6,7 +6,6 @@ from config import GEMINI_API_KEY
 
 from .prompt import SYSTEM_PROMPT
 from .schema import DuplicateDetectionResponse
-from .tools import get_existing_bugs
 
 
 class DuplicateDetectionAgent:
@@ -19,9 +18,16 @@ class DuplicateDetectionAgent:
 
         self.system_prompt = SYSTEM_PROMPT
 
-    def detect_duplicate(self, new_bug):
+    def detect_duplicate(
+        self,
+        new_bug,
+        existing_bugs
+    ):
 
-        prompt = self._build_prompt(new_bug)
+        prompt = self._build_prompt(
+            new_bug,
+            existing_bugs
+        )
 
         response = self._invoke_llm(prompt)
 
@@ -29,9 +35,11 @@ class DuplicateDetectionAgent:
 
         return result
 
-    def _build_prompt(self, new_bug):
-
-        existing_bugs = get_existing_bugs()
+    def _build_prompt(
+        self,
+        new_bug,
+        existing_bugs
+    ):
 
         return f"""
 Existing Bugs:
@@ -71,6 +79,35 @@ IMPORTANT:
         response = response.replace("```", "")
         response = response.strip()
 
+        # Convert JSON string to Python dictionary
         data = json.loads(response)
+
+        # -------------------------------
+        # Handle "None" returned as string
+        # -------------------------------
+        if data.get("master_bug_id") == "None":
+            data["master_bug_id"] = None
+
+        # -------------------------------
+        # Handle BUG-101 style IDs
+        # -------------------------------
+        if isinstance(data.get("master_bug_id"), str):
+
+            value = data["master_bug_id"]
+
+            if value.startswith("BUG-"):
+
+                number = value.replace("BUG-", "")
+
+                if number.isdigit():
+                    data["master_bug_id"] = int(number)
+
+        # -------------------------------
+        # Handle numeric strings ("2")
+        # -------------------------------
+        if isinstance(data.get("master_bug_id"), str):
+
+            if data["master_bug_id"].isdigit():
+                data["master_bug_id"] = int(data["master_bug_id"])
 
         return DuplicateDetectionResponse(**data)

@@ -1,26 +1,29 @@
+from typing import Optional
+
 from pydantic import BaseModel, Field
 
 
 class DuplicateDetectionResponse(BaseModel):
 
     is_duplicate: bool = Field(
-        description="Whether the bug is a duplicate."
+        description="Whether the submitted bug is duplicate."
     )
 
-    master_bug_id: str = Field(
-        description="Existing bug ID if duplicate, otherwise 'None'."
+    master_bug_id: Optional[int] = Field(
+        default=None,
+        description="Database ID of the duplicate bug."
     )
 
     similarity_score: int = Field(
         ge=0,
         le=100,
-        description="Similarity score between the new bug and the matched bug."
+        description="Similarity score."
     )
 
     reason: str = Field(
-        description="Reason why the bug is considered duplicate or unique."
+        description="Reason for duplicate decision."
     )
 
     action: str = Field(
-        description="Suggested action. Either 'Link to existing bug' or 'Create new bug'."
+        description="Suggested action."
     )

@@ -3,6 +3,8 @@ from agents.team_recommendation import TeamRecommendationAgent
 from agents.duplicate_detection import DuplicateDetectionAgent
 from agents.assignment_validation import AssignmentValidationAgent
 
+from backend.crud.bug_crud import get_all_bugs
+
 
 class BugTriageOrchestrator:
 
@@ -16,15 +18,44 @@ class BugTriageOrchestrator:
 
         self.validation_agent = AssignmentValidationAgent()
 
-
     def process_bug(
         self,
         bug,
-        existing_bugs
+        db
     ):
 
         # ==========================================
-        # STEP 1 : DUPLICATE DETECTION
+        # STEP 1 : FETCH BUGS FROM DATABASE
+        # ==========================================
+
+        db_bugs = get_all_bugs(db)
+
+        existing_bugs = []
+
+        for record in db_bugs:
+
+            existing_bugs.append({
+
+                "id": record.id,
+
+                "title": record.title,
+
+                "description": record.description,
+
+                "summary": record.summary,
+
+                "category": record.category,
+
+                "severity": record.severity
+
+            })
+
+        print("\n===== EXISTING BUGS IN DATABASE =====")
+
+        print(existing_bugs)
+
+        # ==========================================
+        # STEP 2 : DUPLICATE DETECTION
         # ==========================================
 
         print("\n===== STEP 1 : DUPLICATE DETECTION =====")
@@ -47,7 +78,7 @@ class BugTriageOrchestrator:
             }
 
         # ==========================================
-        # STEP 2 : BUG ANALYSIS
+        # STEP 3 : BUG ANALYSIS
         # ==========================================
 
         print("\n===== STEP 2 : BUG ANALYSIS =====")
@@ -57,7 +88,7 @@ class BugTriageOrchestrator:
         print(analysis_result)
 
         # ==========================================
-        # STEP 3 : TEAM RECOMMENDATION
+        # STEP 4 : TEAM RECOMMENDATION
         # ==========================================
 
         print("\n===== STEP 3 : TEAM RECOMMENDATION =====")
@@ -77,7 +108,7 @@ class BugTriageOrchestrator:
         print(team_result)
 
         # ==========================================
-        # STEP 4 : ASSIGNMENT VALIDATION
+        # STEP 5 : ASSIGNMENT VALIDATION
         # ==========================================
 
         print("\n===== STEP 4 : ASSIGNMENT VALIDATION =====")

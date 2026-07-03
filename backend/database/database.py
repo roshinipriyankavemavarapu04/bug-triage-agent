@@ -11,7 +11,6 @@ DATABASE = "bug_triage_db"
 DATABASE_URL = "mysql+pymysql://root:root@localhost:3306/bug_triage"
 
 
-
 engine = create_engine(DATABASE_URL)
 
 SessionLocal = sessionmaker(

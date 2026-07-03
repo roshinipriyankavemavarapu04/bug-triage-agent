@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 
 from backend.database.models import Bug
-
 
 # ----------------------------
 # CREATE BUG
@@ -140,14 +140,120 @@ def update_bug_team(db: Session, bug_id: int, team: str):
 # ----------------------------
 # DASHBOARD
 # ----------------------------
-def get_dashboard_data(db: Session):
 
-    bugs = db.query(Bug).all()
+
+
+def get_dashboard_summary(db):
+
+    total = db.query(Bug).count()
+
+    open_bugs = db.query(Bug).filter(Bug.status == "Open").count()
+
+    closed_bugs = db.query(Bug).filter(Bug.status == "Closed").count()
+
+    duplicate_bugs = db.query(Bug).filter(Bug.is_duplicate == True).count()
 
     return {
-        "total_bugs": len(bugs),
-        "open_bugs": len([b for b in bugs if b.status == "Open"]),
-        "closed_bugs": len([b for b in bugs if b.status == "Closed"]),
-        "duplicate_bugs": len([b for b in bugs if b.is_duplicate]),
-        "high_priority": len([b for b in bugs if b.priority == "High"]),
+        "total_bugs": total,
+        "open_bugs": open_bugs,
+        "closed_bugs": closed_bugs,
+        "duplicate_bugs": duplicate_bugs
+    }
+
+
+def get_team_summary(db):
+
+    rows = (
+        db.query(
+            Bug.recommended_team,
+            func.count(Bug.id)
+        )
+        .group_by(Bug.recommended_team)
+        .all()
+    )
+
+    return [
+        {
+            "team": team,
+            "count": count
+        }
+        for team, count in rows
+    ]
+
+
+def get_severity_summary(db):
+
+    rows = (
+        db.query(
+            Bug.severity,
+            func.count(Bug.id)
+        )
+        .group_by(Bug.severity)
+        .all()
+    )
+
+    return [
+        {
+            "severity": severity,
+            "count": count
+        }
+        for severity, count in rows
+    ]
+
+
+def get_status_summary(db):
+
+    rows = (
+        db.query(
+            Bug.status,
+            func.count(Bug.id)
+        )
+        .group_by(Bug.status)
+        .all()
+    )
+
+    return [
+        {
+            "status": status,
+            "count": count
+        }
+        for status, count in rows
+    ]
+
+def get_priority_summary(db):
+
+    rows = (
+        db.query(
+            Bug.priority,
+            func.count(Bug.id)
+        )
+        .group_by(Bug.priority)
+        .all()
+    )
+
+    return [
+        {
+            "priority": priority,
+            "count": count
+        }
+        for priority, count in rows
+    ]
+# ----------------------------
+# DASHBOARD ANALYTICS
+# ----------------------------
+
+def get_dashboard_analytics(db):
+
+    return {
+
+        "summary": get_dashboard_summary(db),
+
+        "team_summary": get_team_summary(db),
+
+        "severity_summary": get_severity_summary(db),
+
+        "priority_summary": get_priority_summary(db),
+
+        "status_summary": get_status_summary(db)
+
     }

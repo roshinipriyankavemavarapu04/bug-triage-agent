@@ -1,7 +1,7 @@
 from .database import engine, Base
 
 # Import all models before create_all()
-from .models import Bug
+from .models import Bug, User
 
 
 def create_tables():
