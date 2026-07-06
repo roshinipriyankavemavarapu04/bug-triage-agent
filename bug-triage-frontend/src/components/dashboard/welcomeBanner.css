@@ -1,0 +1,61 @@
+.welcome-banner{
+
+    margin-bottom:30px;
+
+    padding:35px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:linear-gradient(
+        135deg,
+        #4F46E5,
+        #6366F1,
+        #7C3AED
+    );
+
+    color:white;
+}
+
+.welcome-banner h2{
+
+    font-size:30px;
+
+    margin-bottom:10px;
+}
+
+.welcome-banner p{
+
+    font-size:16px;
+
+    opacity:.9;
+}
+
+.welcome-banner button{
+
+    padding:14px 24px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:white;
+
+    color:#4F46E5;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.welcome-banner button:hover{
+
+    transform:translateY(-2px);
+}

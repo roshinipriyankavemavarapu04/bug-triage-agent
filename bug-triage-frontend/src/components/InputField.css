@@ -1,0 +1,74 @@
+.input-group {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input-wrapper input {
+  display: block;
+  width: 100%;
+  height: 52px;
+
+  padding: 0 52px 0 48px;
+
+  border: 1px solid #D1D5DB;
+  border-radius: 10px;
+
+  font-size: 15px;
+
+  box-sizing: border-box;
+
+  transition: .25s;
+}
+
+.input-wrapper input:focus {
+  border-color: #4F46E5;
+  box-shadow: 0 0 0 4px rgba(79,70,229,.12);
+}
+
+.left-icon,
+.right-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-icon {
+  left: 16px;
+  color: #9CA3AF;
+  pointer-events: none;
+}
+
+.right-icon {
+  right: 16px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  color: #9CA3AF;
+}
+
+.left-icon svg,
+.right-icon svg {
+  width: 16px !important;
+  height: 16px !important;
+  flex-shrink: 0;
+}
+
+.right-icon:hover {
+  color: #4F46E5;
+}

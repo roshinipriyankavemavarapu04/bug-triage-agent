@@ -1,0 +1,11 @@
+.dashboard {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 12px;
+  }
+}

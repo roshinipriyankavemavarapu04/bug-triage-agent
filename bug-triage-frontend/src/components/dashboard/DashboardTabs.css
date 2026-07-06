@@ -1,0 +1,125 @@
+.dashboard-tabs-container {
+  display: flex;
+  gap: 0;
+  height: 100%;
+}
+
+.tabs-sidebar {
+  width: 250px;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  padding: 20px 0;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  border-radius: 12px 0 0 12px;
+}
+
+.tabs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 12px;
+}
+
+.tab-button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tab-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.tab-button.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border-left: 4px solid #60a5fa;
+  padding-left: 12px;
+  font-weight: 600;
+}
+
+.tab-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.tab-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tabs-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 30px;
+  background: #f8fafc;
+  border-radius: 0 12px 12px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-tabs-container {
+    flex-direction: column;
+  }
+
+  .tabs-sidebar {
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+    padding: 12px 0;
+  }
+
+  .tabs-list {
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 0 12px;
+  }
+
+  .tab-button {
+    flex-shrink: 0;
+    padding: 10px 12px;
+  }
+
+  .tab-button.active {
+    border-left: none;
+    border-bottom: 4px solid #60a5fa;
+    padding-bottom: 6px;
+  }
+
+  .tabs-content {
+    border-radius: 0 0 12px 12px;
+    padding: 20px;
+  }
+}
+
+/* Scrollbar Styling */
+.tabs-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tabs-sidebar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.tabs-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.tabs-sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
